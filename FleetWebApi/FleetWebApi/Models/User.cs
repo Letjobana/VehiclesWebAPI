@@ -8,5 +8,6 @@
         public string IdNumber { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
+        public Account Account { get; set; }
     }
 }

@@ -17,8 +17,8 @@ namespace FleetWebApi.Controllers
         {
             this.userRepository = userRepository;
         }
-        [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(UsersViewModel user)
+        [HttpPost("CreateUser")]
+        public async Task<ActionResult<User>> CreateUser([FromBody] UsersViewModel user)
         {
             try
             {

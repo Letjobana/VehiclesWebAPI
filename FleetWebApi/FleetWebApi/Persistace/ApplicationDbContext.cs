@@ -9,5 +9,7 @@ namespace FleetWebApi.Persistace
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
     }
 }

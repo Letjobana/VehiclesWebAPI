@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FleetWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace FleetWebApi.Controllers
         {
             this.userRepository = userRepository;
         }
-        [HttpPost("CreateUser")]
+        [HttpPost]
         public async Task<ActionResult<User>> CreateUser([FromBody] UsersViewModel user)
         {
             try
@@ -33,5 +33,6 @@ namespace FleetWebApi.Controllers
                     "Error creating new user");
             }
         }
+
     }
 }

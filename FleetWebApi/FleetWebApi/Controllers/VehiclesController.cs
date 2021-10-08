@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FleetWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class VehiclesController : ControllerBase
     {
@@ -17,8 +17,8 @@ namespace FleetWebApi.Controllers
         {
             this.vehicleRepository = vehicleRepository;
         }
-        [HttpPost("AddVehicle")]
-        public async Task<ActionResult<Vehicle>> CreateUser([FromBody] VehicleViewModel vehicle)
+        [HttpPost]
+        public async Task<ActionResult<Vehicle>> AddNewVehicle([FromBody] VehicleViewModel vehicle)
         {
             try
             {
@@ -32,6 +32,20 @@ namespace FleetWebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error adding new vehicle");
             }
+        }
+        [HttpPost]
+        public async Task<ActionResult<Vehicle>> RenewLicense([FromBody] int vehicleId)
+        {
+            try
+            {
+                var renewLicense = await vehicleRepository.RenewLicense(vehicleId);
+                return renewLicense;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

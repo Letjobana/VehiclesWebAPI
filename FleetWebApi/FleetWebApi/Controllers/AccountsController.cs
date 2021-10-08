@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FleetWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountsController : ControllerBase
     {

@@ -2,6 +2,7 @@
 using FleetWebApi.Persistace;
 using FleetWebApi.Repositories.Abstract;
 using FleetWebApi.ViewModels;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,11 +24,12 @@ namespace FleetWebApi.Repositories.Concrete
                 await dbContext.SaveChangesAsync();
                 return acc;
             }
-            catch (System.Exception)
+            catch (Exception)
             {
 
                 throw;
             }
+
         }
     }
 }

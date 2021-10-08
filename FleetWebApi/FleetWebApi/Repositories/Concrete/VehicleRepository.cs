@@ -2,7 +2,9 @@
 using FleetWebApi.Persistace;
 using FleetWebApi.Repositories.Abstract;
 using FleetWebApi.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FleetWebApi.Repositories.Concrete
@@ -39,5 +41,34 @@ namespace FleetWebApi.Repositories.Concrete
                 throw;
             }
         }
+
+        public async Task<Vehicle> RenewLicense(int vehicleId)
+        {
+
+            try
+            {
+                Vehicle vehicle = dbContext.
+                    Vehicles.Include(r => r.Account).
+                    Where(r => r.Id == vehicleId).FirstOrDefault();
+
+                if (vehicle.Account.Balance - 500 < 0)
+                {
+                    throw new InvalidOperationException("Insufficient fund");
+
+                }
+                vehicle.LicenseExpiry = vehicle.LicenseExpiry.AddYears(1);
+                vehicle.Account.Balance -= 500;
+                await dbContext.SaveChangesAsync();
+                return vehicle;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }
+

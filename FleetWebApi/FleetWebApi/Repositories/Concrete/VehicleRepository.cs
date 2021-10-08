@@ -4,6 +4,7 @@ using FleetWebApi.Repositories.Abstract;
 using FleetWebApi.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,9 +13,11 @@ namespace FleetWebApi.Repositories.Concrete
     public class VehicleRepository : IVehicleRepository
     {
         private readonly ApplicationDbContext dbContext;
+        private DbSet<Vehicle> dbset;
         public VehicleRepository(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
+            this.dbset = dbContext.Set<Vehicle>();
         }
         public async Task<Vehicle> AddVehicle(VehicleViewModel vehicle)
         {
@@ -40,6 +43,40 @@ namespace FleetWebApi.Repositories.Concrete
 
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetVehicles(VehiclesParameters vehiclesParameters, string VIN = null, string model = null,
+            string licenseNumber = null, string registrationPlate = null, string color = null)
+        {
+            IQueryable<Vehicle> query = dbset;
+
+            if (!string.IsNullOrEmpty(VIN))
+            {
+                query = query.Where(r => r.VIN == VIN);
+            }
+            if (!string.IsNullOrEmpty(model))
+            {
+                query = query.Where(r => r.Model == model);
+
+            }
+            if (!string.IsNullOrEmpty(licenseNumber))
+            {
+                query = query.Where(r => r.LicenseNumber == licenseNumber);
+
+            }
+            if (!string.IsNullOrEmpty(registrationPlate))
+            {
+                query = query.Where(r => r.RegistrationPlate == registrationPlate);
+
+            }
+            if (!string.IsNullOrEmpty(color))
+            {
+                query = query.Where(r => r.Color == color);
+
+            }
+            return await query.OrderBy(x => x.Id).
+                Skip((vehiclesParameters.pageNumber - 1) * vehiclesParameters.PageSize)
+                .Take(vehiclesParameters.PageSize).ToListAsync();
         }
 
         public async Task<Vehicle> RenewLicense(RenewLicenseViewModel renew)

@@ -47,5 +47,20 @@ namespace FleetWebApi.Controllers
             }
 
         }
+        [HttpGet]
+        public async Task<ActionResult> GetVehicles([FromQuery] VehiclesParameters vehiclesParameters, string VIN = null,
+            string model = null, string licenseNumber = null,string registrationPlate =null, string color = null)
+        {
+            try
+            {
+                return Ok(await vehicleRepository.GetVehicles(vehiclesParameters, VIN, model, licenseNumber,registrationPlate,color));
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
+        }
     }
 }

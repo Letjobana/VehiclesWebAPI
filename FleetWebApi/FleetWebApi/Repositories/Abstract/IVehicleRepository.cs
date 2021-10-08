@@ -7,7 +7,7 @@ namespace FleetWebApi.Repositories.Abstract
     public interface IVehicleRepository
     {
         Task<Vehicle> AddVehicle(VehicleViewModel vehicle);
-        Task<Vehicle> RenewLicense(int vehicleId);
+        Task<Vehicle> RenewLicense(RenewLicenseViewModel renew);
     }
 }
 

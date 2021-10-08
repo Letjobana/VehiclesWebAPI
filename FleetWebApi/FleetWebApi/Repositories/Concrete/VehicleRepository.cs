@@ -42,14 +42,14 @@ namespace FleetWebApi.Repositories.Concrete
             }
         }
 
-        public async Task<Vehicle> RenewLicense(int vehicleId)
+        public async Task<Vehicle> RenewLicense(RenewLicenseViewModel renew)
         {
 
             try
             {
                 Vehicle vehicle = dbContext.
                     Vehicles.Include(r => r.Account).
-                    Where(r => r.Id == vehicleId).FirstOrDefault();
+                    Where(r => r.Id == renew.VehicleId).FirstOrDefault();
 
                 if (vehicle.Account.Balance - 500 < 0)
                 {

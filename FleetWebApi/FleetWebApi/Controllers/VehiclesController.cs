@@ -34,11 +34,11 @@ namespace FleetWebApi.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult<Vehicle>> RenewLicense([FromBody] int vehicleId)
+        public async Task<ActionResult<Vehicle>> RenewLicense([FromBody] RenewLicenseViewModel renew)
         {
             try
             {
-                var renewLicense = await vehicleRepository.RenewLicense(vehicleId);
+                var renewLicense = await vehicleRepository.RenewLicense(renew);
                 return renewLicense;
             }
             catch (Exception)

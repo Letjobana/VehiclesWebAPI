@@ -17,7 +17,7 @@ namespace FleetWebApi.Controllers
         {
             this.accountRepository = accountRepository;
         }
-        [HttpPost("MakeDeposite")]
+        [HttpPost]
         public async Task<ActionResult<Account>> MakeDeposite([FromBody] AccountViewModel account)
         {
             try
